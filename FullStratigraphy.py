@@ -1,7 +1,39 @@
 import cv2
+import numpy as np
 
-img = cv2.imread("imgs/UnoOnlyMountain.png")
-erode = cv2.imread("erode.png")
+
+def nothing(x):
+    pass
+
+
+imgName = "imgs/TresOnlyMountain.png"
+img = cv2.imread(imgName)
+cv2.imshow("Input", img)
+Gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+#median blur
+median = cv2.medianBlur(img, ksize=11)
+# cv2.imshow("Median blur", median)
+
+#High Pass Filter "Sobel": to find edges
+sobely = cv2.Sobel(median, -1, dx=0, dy=1, ksize=3, scale=1, delta=0, borderType=cv2.BORDER_DEFAULT)
+# cv2.imshow("sobely", sobely)
+
+#Denoising Image
+# fastNisobely= cv2.fastNlMeansDenoising(sobely, 1,7,21)
+# cv2.imshow("fastNisobely", fastNisobely)
+
+#Erode
+kernel = np.ones((3,3), np.uint8)
+erode = cv2.erode(sobely,kernel, iterations = 1)
+cv2.imshow("Erode", erode)
+
+
+
+#Blending images
+imageblending = cv2.addWeighted(img, 0.30, erode, 0.70, 0)
+cv2.imshow("Blending", imageblending)
+
 rows, cols, channels = erode.shape
 Matrix = [[0 for x in range(cols)] for y in range(rows)]
 print(cols)
@@ -60,12 +92,13 @@ print(len(mapaDePuntos))
 
 iterarPunots = len(mapaDePuntos) -1
 for i in range(0, iterarPunots ,1):
-    img = cv2.line(img, mapaDePuntos[i], mapaDePuntos[i], (0,255,0), 1 )
+    img = cv2.line(img, mapaDePuntos[i], mapaDePuntos[i], (0,255,0), 3 )
 
     #print(str(mapaDePuntos[i]) + " " + str(mapaDePuntos[i+1]))
 
 
 cv2.imshow("Erode", erode)
 cv2.imshow("Union", img)
+
 cv2.waitKey()
 cv2.destroyAllWindows()

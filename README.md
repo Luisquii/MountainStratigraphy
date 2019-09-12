@@ -16,3 +16,6 @@ The reason we just give the mountain is to help the algorithm to just analyze th
 After some median blur, high pass filter, erode, image blending and an matrix analysis this is the output
 
 ![UnoOutput](https://github.com/Luisquii/MountainStratigraphy/blob/master/imgs/UnoOutput.png)
+
+![Cincoout1](https://github.com/Luisquii/MountainStratigraphy/blob/master/imgs/cincoout1.png)
+![Cincoout2](https://github.com/Luisquii/MountainStratigraphy/blob/master/imgs/cincoout2.png)
